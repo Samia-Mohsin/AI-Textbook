@@ -1,0 +1,57 @@
+/* progressIndicator.module.css */
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.label {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressBar.small {
+  height: 8px;
+}
+
+.progressBar.large {
+  height: 16px;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #25c2a0, #3598db);
+  transition: width 0.3s ease;
+  border-radius: 6px;
+}
+
+.percentageText {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #25c2a0;
+  text-align: center;
+  width: 100%;
+}
+
+/* Animation for progress fill */
+@keyframes progressFill {
+  from {
+    width: 0;
+  }
+}
+
+.progressBarFill {
+  animation: progressFill 0.5s ease-out;
+}

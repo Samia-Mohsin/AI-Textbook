@@ -1,0 +1,822 @@
+openapi: 3.0.0
+info:
+  title: Humanoid Robotics Learning Platform API
+  description: API for the Physical AI & Humanoid Robotics educational platform
+  version: 1.0.0
+  contact:
+    name: Development Team
+    email: support@humanoid-robotics-book.com
+
+servers:
+  - url: https://api.humanoid-robotics-book.com/v1
+    description: Production server
+  - url: https://staging-api.humanoid-robotics-book.com/v1
+    description: Staging server
+
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      description: Register a new user for the learning platform
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+    get:
+      summary: Get all users
+      description: Retrieve a list of users (admin only)
+      parameters:
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [student, educator, developer]
+          description: Filter users by role
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+          description: Number of users to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Number of users to skip
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /users/{userId}:
+    get:
+      summary: Get user by ID
+      description: Retrieve a specific user's information
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update user information
+      description: Update a user's profile information
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /modules:
+    get:
+      summary: Get all modules
+      description: Retrieve a list of all learning modules
+      responses:
+        '200':
+          description: List of modules
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  modules:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Module'
+
+  /modules/{moduleId}:
+    get:
+      summary: Get module by ID
+      description: Retrieve detailed information about a specific module
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Module ID
+      responses:
+        '200':
+          description: Module information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Module'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /modules/{moduleId}/chapters:
+    get:
+      summary: Get chapters for a module
+      description: Retrieve all chapters for a specific module
+      parameters:
+        - name: moduleId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Module ID
+      responses:
+        '200':
+          description: List of chapters for the module
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chapters:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chapter'
+
+  /chapters/{chapterId}:
+    get:
+      summary: Get chapter by ID
+      description: Retrieve detailed information about a specific chapter
+      parameters:
+        - name: chapterId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Chapter ID
+      responses:
+        '200':
+          description: Chapter information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chapter'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/{userId}/progress:
+    get:
+      summary: Get user progress
+      description: Retrieve the user's progress across all modules and chapters
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: User progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  progress:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserProgress'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Update user progress
+      description: Update the user's progress for a specific chapter
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProgressUpdate'
+      responses:
+        '200':
+          description: User progress updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProgress'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/{userId}/assessments:
+    get:
+      summary: Get user assessments
+      description: Retrieve all assessments for the user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User ID
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, completed]
+          description: Filter assessments by status
+      responses:
+        '200':
+          description: List of user assessments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assessments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAssessment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /assessments/{assessmentId}/submit:
+    post:
+      summary: Submit assessment
+      description: Submit answers for an assessment
+      parameters:
+        - name: assessmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Assessment ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentSubmission'
+      responses:
+        '200':
+          description: Assessment submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /chatbot/query:
+    post:
+      summary: Query RAG chatbot
+      description: Submit a question to the RAG chatbot for chapter-specific answers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+                - userId
+              properties:
+                query:
+                  type: string
+                  description: The question to ask the chatbot
+                userId:
+                  type: string
+                  description: User ID for personalization
+                moduleId:
+                  type: string
+                  description: Optional module ID to limit context
+                chapterId:
+                  type: string
+                  description: Optional chapter ID to limit context
+      responses:
+        '200':
+          description: Chatbot response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - response
+                  - sources
+                properties:
+                  response:
+                    type: string
+                    description: The chatbot's response to the query
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                    description: Sources used to generate the response
+                  confidence:
+                    type: number
+                    format: float
+                    description: Confidence score of the response (0-1)
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - role
+      properties:
+        id:
+          type: string
+          description: Unique user identifier
+        email:
+          type: string
+          format: email
+          description: User's email address
+        name:
+          type: string
+          description: User's full name
+        role:
+          type: string
+          enum: [student, educator, developer]
+          description: User's role in the platform
+        skill_level:
+          type: string
+          enum: [beginner, intermediate, advanced]
+          description: User's self-assessed skill level
+        created_at:
+          type: string
+          format: date-time
+          description: When the user account was created
+        last_login:
+          type: string
+          format: date-time
+          description: When the user last logged in
+        preferences:
+          type: object
+          properties:
+            language:
+              type: string
+              default: "en"
+              description: Preferred language code
+            personalization_enabled:
+              type: boolean
+              default: false
+              description: Whether personalized learning paths are enabled
+
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User's full name
+        role:
+          type: string
+          enum: [student, educator, developer]
+          description: User's role in the platform
+        skill_level:
+          type: string
+          enum: [beginner, intermediate, advanced]
+          description: User's self-assessed skill level
+        preferences:
+          type: object
+          properties:
+            language:
+              type: string
+              description: Preferred language code
+            personalization_enabled:
+              type: boolean
+              description: Whether personalized learning paths are enabled
+
+    Module:
+      type: object
+      required:
+        - id
+        - title
+        - order
+      properties:
+        id:
+          type: string
+          description: Unique module identifier
+        title:
+          type: string
+          description: Module title
+        description:
+          type: string
+          description: Brief description of the module
+        order:
+          type: integer
+          description: Order of the module in the curriculum
+        duration_weeks:
+          type: integer
+          default: 4
+          description: Estimated duration of the module in weeks
+        prerequisites:
+          type: array
+          items:
+            type: string
+          description: List of module IDs that are prerequisites
+        learning_outcomes:
+          type: array
+          items:
+            type: string
+          description: List of learning outcomes for the module
+        created_at:
+          type: string
+          format: date-time
+          description: When the module was created
+        updated_at:
+          type: string
+          format: date-time
+          description: When the module was last updated
+
+    Chapter:
+      type: object
+      required:
+        - id
+        - module_id
+        - title
+        - order
+        - content_path
+      properties:
+        id:
+          type: string
+          description: Unique chapter identifier
+        module_id:
+          type: string
+          description: ID of the parent module
+        title:
+          type: string
+          description: Chapter title
+        content_path:
+          type: string
+          description: Path to the chapter content file
+        order:
+          type: integer
+          description: Order of the chapter within the module
+        estimated_duration_minutes:
+          type: integer
+          description: Estimated time to complete the chapter
+        concepts_covered:
+          type: array
+          items:
+            type: string
+          description: List of concepts covered in the chapter
+        code_examples:
+          type: array
+          items:
+            type: string
+          description: List of code example file paths
+        created_at:
+          type: string
+          format: date-time
+          description: When the chapter was created
+        updated_at:
+          type: string
+          format: date-time
+          description: When the chapter was last updated
+
+    UserProgress:
+      type: object
+      required:
+        - id
+        - user_id
+        - module_id
+        - chapter_id
+        - status
+        - progress_percentage
+      properties:
+        id:
+          type: string
+          description: Unique progress record identifier
+        user_id:
+          type: string
+          description: User ID
+        module_id:
+          type: string
+          description: Module ID
+        chapter_id:
+          type: string
+          description: Chapter ID
+        status:
+          type: string
+          enum: [not_started, in_progress, completed]
+          description: Current status of the chapter
+        progress_percentage:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: Progress percentage (0-100)
+        time_spent_seconds:
+          type: integer
+          description: Time spent on the chapter in seconds
+        last_accessed:
+          type: string
+          format: date-time
+          description: When the chapter was last accessed
+        completed_at:
+          type: string
+          format: date-time
+          description: When the chapter was completed (null if not completed)
+
+    UserProgressUpdate:
+      type: object
+      required:
+        - module_id
+        - chapter_id
+        - status
+        - progress_percentage
+      properties:
+        module_id:
+          type: string
+          description: Module ID
+        chapter_id:
+          type: string
+          description: Chapter ID
+        status:
+          type: string
+          enum: [not_started, in_progress, completed]
+          description: Current status of the chapter
+        progress_percentage:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: Progress percentage (0-100)
+        time_spent_seconds:
+          type: integer
+          description: Time spent on the chapter in seconds
+
+    Assessment:
+      type: object
+      required:
+        - id
+        - chapter_id
+        - title
+        - type
+      properties:
+        id:
+          type: string
+          description: Unique assessment identifier
+        chapter_id:
+          type: string
+          description: ID of the associated chapter
+        type:
+          type: string
+          enum: [quiz, practical, project]
+          description: Type of assessment
+        title:
+          type: string
+          description: Assessment title
+        description:
+          type: string
+          description: Brief description of the assessment
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+        passing_score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          default: 70
+          description: Minimum score required to pass (0-100)
+        max_attempts:
+          type: integer
+          default: 3
+          description: Maximum number of attempts allowed
+
+    Question:
+      type: object
+      required:
+        - id
+        - type
+        - content
+      properties:
+        id:
+          type: string
+          description: Unique question identifier
+        type:
+          type: string
+          enum: [multiple_choice, true_false, short_answer, practical]
+          description: Type of question
+        content:
+          type: string
+          description: The question text
+        options:
+          type: array
+          items:
+            type: string
+          description: Options for multiple choice questions
+        correct_answer:
+          type: string
+          description: The correct answer
+        explanation:
+          type: string
+          description: Explanation of the correct answer
+
+    UserAssessment:
+      type: object
+      required:
+        - id
+        - user_id
+        - assessment_id
+        - attempt_number
+        - score
+        - passed
+      properties:
+        id:
+          type: string
+          description: Unique assessment attempt identifier
+        user_id:
+          type: string
+          description: User ID
+        assessment_id:
+          type: string
+          description: Assessment ID
+        attempt_number:
+          type: integer
+          description: Which attempt this is (1-indexed)
+        score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: Score achieved (0-100)
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+        completed_at:
+          type: string
+          format: date-time
+          description: When the assessment was completed
+        passed:
+          type: boolean
+          description: Whether the assessment was passed
+
+    Answer:
+      type: object
+      required:
+        - question_id
+        - content
+      properties:
+        question_id:
+          type: string
+          description: ID of the question being answered
+        content:
+          type: string
+          description: The answer content
+        is_correct:
+          type: boolean
+          description: Whether the answer was correct (computed server-side)
+
+    AssessmentSubmission:
+      type: object
+      required:
+        - answers
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+          description: Array of answers to the assessment questions
+
+    AssessmentResult:
+      type: object
+      required:
+        - score
+        - passed
+        - detailed_results
+      properties:
+        score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+          description: Final score (0-100)
+        passed:
+          type: boolean
+          description: Whether the assessment was passed
+        detailed_results:
+          type: array
+          items:
+            type: object
+            properties:
+              question_id:
+                type: string
+                description: ID of the question
+              is_correct:
+                type: boolean
+                description: Whether the answer was correct
+              correct_answer:
+                type: string
+                description: The correct answer
+              explanation:
+                type: string
+                description: Explanation of the correct answer
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+
+    Unauthorized:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "unauthorized"
+              message:
+                type: string
+                example: "Authentication required"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "not_found"
+              message:
+                type: string
+                example: "The requested resource was not found"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+security:
+  - BearerAuth: []

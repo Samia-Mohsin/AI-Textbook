@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git fetch --all --prune)",
+      "Bash(powershell -Command \".specify/scripts/powershell/create-new-feature.ps1 -Json -ShortName ''humanoid-robotics-book'' -Number 1 ''Title: Physical AI & Humanoid Robotics — Full 4-Module Book Target Audience: Students, developers, educators aiming to build humanoid robots using ROS2, Gazebo/Unity, NVIDIA Isaac, and VLA systems. Focus: Teaching embodied intelligence by connecting AI models to simulated and real humanoid robots.''\")",
+      "Bash(powershell -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -PathsOnly\")",
+      "Bash(powershell -Command \".specify/scripts/powershell/setup-plan.ps1 -Json\")",
+      "Bash(powershell -Command \".specify/scripts/powershell/update-agent-context.ps1 -AgentType claude\")",
+      "Bash(powershell -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json\")",
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(powershell -Command \".specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks\")",
+      "Bash(if [ -d \"specs/001-humanoid-robotics-book/checklists\" ])",
+      "Bash(then)",
+      "Bash(else)",
+      "Bash(fi)",
+      "Bash(find . -name \"*.md\" -path \"*/checklists/*\" -exec basename {} ;)",
+      "Bash(npm start)",
+      "Bash(npx docusaurus start --port 3001)",
+      "Bash(npx docusaurus start --port 4000)",
+      "Bash(npx docusaurus start --port 5000)",
+      "Bash(curl -s http://localhost:3009/)",
+      "Bash(npx docusaurus start --port 3010)",
+      "Bash(curl -s http://localhost:3010/)",
+      "Bash(curl -I http://localhost:3010/docs/module-1-ros2/chapter-1-architecture)",
+      "Bash(curl -I http://localhost:3010/docs)",
+      "Bash(curl -I http://localhost:3010/docs/capstone-project/intro)",
+      "Bash(npx docusaurus start --port 3011)",
+      "Bash(curl -s http://localhost:3011/)",
+      "Bash(curl -I http://localhost:3011/docs/module-1-ros2/chapter-1-architecture)",
+      "Bash(curl -I http://localhost:3011/localhost)",
+      "Bash(curl -s http://localhost:3011/localhost)",
+      "Bash(npx docusaurus start)",
+      "Bash(curl -I http://localhost:3000/localhost)",
+      "Bash(npx docusaurus start --port 3012)",
+      "Bash(curl -I http://localhost:3012/)",
+      "Bash(curl -s http://localhost:3012/)",
+      "Bash(npx docusaurus start --port 3013)",
+      "Bash(curl -I http://localhost:3013/)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

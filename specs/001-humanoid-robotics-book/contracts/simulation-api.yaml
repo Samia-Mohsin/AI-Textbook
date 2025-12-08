@@ -1,0 +1,803 @@
+openapi: 3.0.0
+info:
+  title: Humanoid Robotics Simulation API
+  description: API for simulation and robotics control components of the educational platform
+  version: 1.0.0
+  contact:
+    name: Development Team
+    email: support@humanoid-robotics-book.com
+
+servers:
+  - url: https://sim.humanoid-robotics-book.com/v1
+    description: Production simulation server
+  - url: https://staging-sim.humanoid-robotics-book.com/v1
+    description: Staging simulation server
+
+paths:
+  /simulations:
+    post:
+      summary: Create a new simulation instance
+      description: Create a new simulation environment for a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationRequest'
+      responses:
+        '201':
+          description: Simulation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+    get:
+      summary: Get user's simulations
+      description: Retrieve a list of simulations for the authenticated user
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [running, stopped, paused, error]
+          description: Filter simulations by status
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+          description: Number of simulations to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Number of simulations to skip
+      responses:
+        '200':
+          description: List of user's simulations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  simulations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Simulation'
+                  total:
+                    type: integer
+
+  /simulations/{simulationId}:
+    get:
+      summary: Get simulation by ID
+      description: Retrieve detailed information about a specific simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: Simulation information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Stop and delete simulation
+      description: Stop a running simulation and remove it
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '204':
+          description: Simulation stopped and deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/start:
+    post:
+      summary: Start simulation
+      description: Start a stopped or paused simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: Simulation started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/stop:
+    post:
+      summary: Stop simulation
+      description: Stop a running simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: Simulation stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/reset:
+    post:
+      summary: Reset simulation
+      description: Reset simulation to initial state
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: Simulation reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Simulation'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/robot:
+    get:
+      summary: Get robot state
+      description: Retrieve the current state of the robot in the simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: Robot state retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RobotState'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Update robot state
+      description: Send commands to the robot in the simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RobotCommand'
+      responses:
+        '200':
+          description: Robot command accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RobotState'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/sensors:
+    get:
+      summary: Get sensor data
+      description: Retrieve sensor data from the robot in the simulation
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+        - name: sensorType
+          in: query
+          schema:
+            type: string
+            enum: [lidar, camera, imu, depth, joint_states]
+          description: Filter by specific sensor type
+      responses:
+        '200':
+          description: Sensor data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sensor_data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SensorData'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/recordings:
+    get:
+      summary: Get simulation recordings
+      description: Retrieve a list of recorded simulation sessions
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      responses:
+        '200':
+          description: List of recordings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recordings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Recording'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Start recording
+      description: Start recording the current simulation session
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name for the recording
+                description:
+                  type: string
+                  description: Description of the recording
+      responses:
+        '200':
+          description: Recording started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /simulations/{simulationId}/recordings/{recordingId}/stop:
+    post:
+      summary: Stop recording
+      description: Stop the specified recording
+      parameters:
+        - name: simulationId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Simulation ID
+        - name: recordingId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Recording ID
+      responses:
+        '200':
+          description: Recording stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /environments:
+    get:
+      summary: Get available simulation environments
+      description: Retrieve a list of available simulation environments
+      responses:
+        '200':
+          description: List of available environments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SimulationEnvironment'
+
+  /environments/{environmentId}/preview:
+    get:
+      summary: Get environment preview
+      description: Retrieve a preview of the simulation environment
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Environment ID
+      responses:
+        '200':
+          description: Environment preview retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentPreview'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /robots:
+    get:
+      summary: Get available robot models
+      description: Retrieve a list of available robot models for simulation
+      responses:
+        '200':
+          description: List of available robot models
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  robots:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RobotModel'
+
+components:
+  schemas:
+    SimulationRequest:
+      type: object
+      required:
+        - environment_id
+        - robot_id
+      properties:
+        environment_id:
+          type: string
+          description: ID of the environment to use
+        robot_id:
+          type: string
+          description: ID of the robot model to use
+        name:
+          type: string
+          description: Name for the simulation instance
+        description:
+          type: string
+          description: Description of the simulation
+        config:
+          type: object
+          description: Additional configuration for the simulation
+
+    Simulation:
+      type: object
+      required:
+        - id
+        - user_id
+        - environment_id
+        - robot_id
+        - status
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Unique simulation identifier
+        user_id:
+          type: string
+          description: ID of the user who owns the simulation
+        environment_id:
+          type: string
+          description: ID of the environment being used
+        robot_id:
+          type: string
+          description: ID of the robot model being used
+        name:
+          type: string
+          description: Name of the simulation
+        description:
+          type: string
+          description: Description of the simulation
+        status:
+          type: string
+          enum: [running, stopped, paused, error]
+          description: Current status of the simulation
+        created_at:
+          type: string
+          format: date-time
+          description: When the simulation was created
+        started_at:
+          type: string
+          format: date-time
+          description: When the simulation was started (null if not started)
+        stopped_at:
+          type: string
+          format: date-time
+          description: When the simulation was stopped (null if not stopped)
+        duration_seconds:
+          type: integer
+          description: Total duration of the simulation in seconds
+
+    RobotState:
+      type: object
+      required:
+        - position
+        - orientation
+        - joint_states
+      properties:
+        position:
+          type: object
+          required: [x, y, z]
+          properties:
+            x:
+              type: number
+              format: float
+              description: X coordinate in the simulation world
+            y:
+              type: number
+              format: float
+              description: Y coordinate in the simulation world
+            z:
+              type: number
+              format: float
+              description: Z coordinate in the simulation world
+        orientation:
+          type: object
+          required: [x, y, z, w]
+          properties:
+            x:
+              type: number
+              format: float
+              description: X component of quaternion
+            y:
+              type: number
+              format: float
+              description: Y component of quaternion
+            z:
+              type: number
+              format: float
+              description: Z component of quaternion
+            w:
+              type: number
+              format: float
+              description: W component of quaternion
+        joint_states:
+          type: object
+          description: Current state of all robot joints
+          additionalProperties:
+            type: number
+            format: float
+        velocities:
+          type: object
+          description: Current velocities of joints
+          additionalProperties:
+            type: number
+            format: float
+        efforts:
+          type: object
+          description: Current efforts/torques of joints
+          additionalProperties:
+            type: number
+            format: float
+        timestamp:
+          type: string
+          format: date-time
+          description: When this state was recorded
+
+    RobotCommand:
+      type: object
+      properties:
+        joint_commands:
+          type: object
+          description: Commands for specific joints
+          additionalProperties:
+            type: number
+            format: float
+        velocity_commands:
+          type: object
+          description: Velocity commands for specific joints
+          additionalProperties:
+            type: number
+            format: float
+        cartesian_target:
+          type: object
+          description: Target position in Cartesian space
+          properties:
+            position:
+              type: object
+              properties:
+                x:
+                  type: number
+                  format: float
+                y:
+                  type: number
+                  format: float
+                z:
+                  type: number
+                  format: float
+            orientation:
+              type: object
+              properties:
+                x:
+                  type: number
+                  format: float
+                y:
+                  type: number
+                  format: float
+                z:
+                  type: number
+                  format: float
+                w:
+                  type: number
+                  format: float
+        navigation_target:
+          type: object
+          description: Navigation target in the environment
+          properties:
+            x:
+              type: number
+              format: float
+            y:
+              type: number
+              format: float
+            z:
+              type: number
+              format: float
+
+    SensorData:
+      type: object
+      required:
+        - type
+        - data
+        - timestamp
+      properties:
+        type:
+          type: string
+          enum: [lidar, camera, imu, depth, joint_states]
+          description: Type of sensor
+        data:
+          type: object
+          description: Sensor-specific data
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
+          description: When the data was captured
+
+    Recording:
+      type: object
+      required:
+        - id
+        - simulation_id
+        - status
+        - created_at
+      properties:
+        id:
+          type: string
+          description: Unique recording identifier
+        simulation_id:
+          type: string
+          description: ID of the simulation being recorded
+        name:
+          type: string
+          description: Name of the recording
+        description:
+          type: string
+          description: Description of the recording
+        status:
+          type: string
+          enum: [recording, stopped, processing, available]
+          description: Current status of the recording
+        duration_seconds:
+          type: integer
+          description: Duration of the recording in seconds
+        file_size_bytes:
+          type: integer
+          description: Size of the recording file in bytes
+        created_at:
+          type: string
+          format: date-time
+          description: When the recording was created
+        processed_at:
+          type: string
+          format: date-time
+          description: When the recording was processed (null if not processed)
+
+    SimulationEnvironment:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          description: Unique environment identifier
+        name:
+          type: string
+          description: Name of the environment
+        description:
+          type: string
+          description: Description of the environment
+        preview_url:
+          type: string
+          format: uri
+          description: URL to preview image/video of the environment
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags describing the environment (e.g., indoor, outdoor, office, warehouse)
+
+    EnvironmentPreview:
+      type: object
+      required:
+        - id
+        - image_url
+        - dimensions
+      properties:
+        id:
+          type: string
+          description: Environment ID
+        image_url:
+          type: string
+          format: uri
+          description: URL to preview image
+        dimensions:
+          type: object
+          required: [width, height, depth]
+          properties:
+            width:
+              type: number
+              format: float
+              description: Width of the environment in meters
+            height:
+              type: number
+              format: float
+              description: Height of the environment in meters
+            depth:
+              type: number
+              format: float
+              description: Depth of the environment in meters
+        objects:
+          type: array
+          items:
+            type: string
+          description: List of objects present in the environment
+        robot_spawn_points:
+          type: array
+          items:
+            type: object
+            properties:
+              x:
+                type: number
+                format: float
+              y:
+                type: number
+                format: float
+              z:
+                type: number
+                format: float
+
+    RobotModel:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - urdf_path
+      properties:
+        id:
+          type: string
+          description: Unique robot model identifier
+        name:
+          type: string
+          description: Name of the robot model
+        description:
+          type: string
+          description: Description of the robot model
+        urdf_path:
+          type: string
+          description: Path to the URDF file for this robot
+        joint_count:
+          type: integer
+          description: Number of joints in the robot
+        sensor_types:
+          type: array
+          items:
+            type: string
+          description: Types of sensors available on this robot
+        max_velocity:
+          type: number
+          format: float
+          description: Maximum joint velocity (rad/s)
+        max_effort:
+          type: number
+          format: float
+          description: Maximum joint effort (Nm)
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              message:
+                type: string
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "not_found"
+              message:
+                type: string
+                example: "The requested resource was not found"
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+security:
+  - BearerAuth: []

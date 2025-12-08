@@ -1,55 +1,68 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: 0.0.0 → 1.0.0
+Modified principles: Initial set of principles defined
+Added sections: Core Principles, Standards and Quality, Structure and Features, Governance
+Removed sections: None
+Templates requiring updates:
+- .specify/templates/plan-template.md: ✅ updated
+- .specify/templates/spec-template.md: ✅ updated
+- .specify/templates/tasks-template.md: ✅ updated
+- .specify/templates/commands/*.md: ✅ updated
+Follow-up TODOs: None
+-->
+# AI/Spec-Driven Book on Physical AI & Humanoid Robotics Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Educational clarity
+Content must be structured for clear progression from beginner to advanced topics, ensuring accessibility and depth for all learners.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Technical accuracy
+All technical content, especially regarding ROS2, Gazebo, Unity, NVIDIA Isaac, VLA, and RAG, must be precise and verifiable.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Practical outcomes
+The book will prioritize hands-on learning with a simulation-first approach, guiding students to practical implementation.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Ethical responsibility
+Content will emphasize safety, reproducible AI practices, and responsible deployment considerations in humanoid robotics.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Personalization
+The platform will offer optional content adaptation based on user profiles and skill levels to enhance individual learning experiences.
 
-### [PRINCIPLE_6_NAME]
+## Standards and Quality
 
+- Content must be original and traceable to authoritative sources.
+- Code examples must be fully runnable on Ubuntu 22.04 with ROS2 Humble/Iron.
+- Robotics concepts must align with real ROS2 control and URDF standards.
+- Agentic AI content must reflect production practices.
+- Inline citations to official documentation or reputable research are mandatory.
+- The tone should be consistently mentor-to-student, respectful, and clear.
 
-[PRINCIPLE__DESCRIPTION]
+## Structure and Features
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- Chapters will start from a specification, followed by objectives, examples, and exercises.
+- Modules will include inputs, outputs, architecture, code, failure modes, and safety notes.
+- RAG Chatbot integration will allow answering questions using selected text and provide optional personalized guidance.
+- Optional buttons per chapter will enable translation to Urdu and content personalization based on user skills.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Constraints
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Total length: 20,000–35,000 words.
+- Minimum 1 working simulation demo.
+- Images/figures include alt text.
+- Use Docusaurus Markdown + Mermaid diagrams.
+- Open, reproducible workflows only.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Success Criteria
+
+- Student can build humanoid pipeline end-to-end.
+- Book deploys to GitHub Pages with no build errors.
+- Code reproducible; instructions precise.
+- Simulation-first approach; optional real-world deployment.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other project practices and documentation. Amendments require thorough documentation, explicit approval from project leads, and a clear migration plan for any affected systems or content. All pull requests and code reviews must explicitly verify compliance with the principles and standards outlined herein.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-07

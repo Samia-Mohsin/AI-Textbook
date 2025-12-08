@@ -1,0 +1,98 @@
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Generated files
+.docusaurus
+.cache-loader
+
+# Python/ROS2
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/modules/ros2_ws/
+
+# ROS2 specific
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+ros2_ws/src/*/build/
+ros2_ws/src/*/install/
+ros2_ws/src/*/log/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# ROS2 packages
+*.so
+*.o
+*.a
+*.la
+.libs/
+.libs
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.manifest
+install.manifest
+Makefile
+
+# Simulation
+.gazebo/
+.gazebo3/
+.gazebo4/
+.gazebo5/
+.gazebo6/
+.gazebo7/
+.gazebo8/
+.gazebo9/
+.gazebo10/
+.gazebo11/
+.gazebo12/
+.gazebo13/
+.gazebo14/
+.gazebo15/
+.gazebo16/
+.gazebo17/
+.gazebo18/
+.gazebo19/
+.gazebo20/
+
+# Isaac Sim
+isaac_sim/
+isaac-sim/
+
+# NVIDIA
+.nv/
+.nvidia/
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,94 @@
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 2rem 1rem;
+}
+
+.loginForm {
+  background: var(--ifm-background-surface-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.loginForm h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--ifm-heading-color);
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--ifm-font-color-base);
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-size: 1rem;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px rgba(var(--ifm-color-primary-rgb), 0.2);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background-color: var(--ifm-color-primary-dark);
+}
+
+.switchMode {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.switchButton:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .loginContainer {
+    padding: 1rem;
+  }
+
+  .loginForm {
+    padding: 1.5rem;
+  }
+}

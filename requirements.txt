@@ -1,0 +1,47 @@
+# ROS2 Ecosystem Dependencies
+# For Ubuntu 22.04 with ROS2 Humble Hawksbill/Iron Irwini
+
+# Core ROS2 Python dependencies
+rclpy>=3.0.0
+ros2cli>=0.9.0
+rosidl-runtime-py>=0.9.0
+
+# Robotics libraries
+geometry_msgs>=1.0.0
+std_msgs>=1.0.0
+sensor_msgs>=1.0.0
+nav_msgs>=1.0.0
+tf2_ros>=0.13.0
+interactive_markers>=1.11.0
+
+# Simulation and visualization
+pyglet>=1.5.27  # For Gazebo integration
+matplotlib>=3.5.0
+numpy>=1.21.0
+scipy>=1.8.0
+
+# AI/ML for perception and control
+torch>=1.13.0  # For NVIDIA Isaac ROS processing
+torchvision>=0.14.0
+opencv-python>=4.5.0
+Pillow>=9.0.0
+
+# VLA (Vision-Language-Action) components
+openai-whisper>=20231117  # For speech recognition
+transformers>=4.20.0  # For language processing
+sentence-transformers>=2.2.0  # For semantic similarity
+
+# Web and API integration
+requests>=2.28.0
+flask>=2.2.0  # For simple web services
+flask-cors>=3.0.0
+
+# Utilities
+pyyaml>=6.0
+tqdm>=4.64.0
+colorama>=0.4.5
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-asyncio>=0.20.0

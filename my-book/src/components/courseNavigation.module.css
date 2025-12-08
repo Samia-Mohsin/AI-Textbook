@@ -1,0 +1,152 @@
+/* courseNavigation.module.css */
+.courseNavigation {
+  width: 100%;
+}
+
+.mobileToggle {
+  display: none;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #25c2a0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.navigationContainer {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.navigationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.navigationHeader h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.navigationHeader a {
+  font-size: 0.9rem;
+  color: #25c2a0;
+}
+
+.modulesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.moduleItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.moduleLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  background-color: #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.moduleLink:hover {
+  background-color: #e8e8e8;
+}
+
+.moduleLink.current {
+  background-color: #25c2a0;
+  color: white;
+}
+
+.moduleTitle {
+  font-weight: bold;
+}
+
+.moduleProgress {
+  font-weight: bold;
+  color: #25c2a0;
+}
+
+.moduleLink.current .moduleProgress {
+  color: white;
+}
+
+.chaptersList {
+  display: none;
+  padding: 0.5rem 1rem;
+  background-color: white;
+}
+
+.moduleItem.currentModule .chaptersList {
+  display: flex;
+  flex-direction: column;
+}
+
+.chapterLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #eee;
+}
+
+.chapterLink:last-child {
+  border-bottom: none;
+}
+
+.chapterLink:hover {
+  color: #25c2a0;
+}
+
+.chapterLink.current {
+  color: #25c2a0;
+  font-weight: bold;
+}
+
+.chapterProgress {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.chapterLink.current .chapterProgress {
+  color: #25c2a0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .mobileToggle {
+    display: block;
+  }
+
+  .hiddenMobile {
+    display: none;
+  }
+
+  .navigationContainer {
+    padding: 0.75rem;
+  }
+
+  .navigationHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
