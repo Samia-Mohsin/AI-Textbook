@@ -88,7 +88,8 @@
       "Bash(git push origin main)",
       "Bash(git commit -m \"chore: add Vercel configuration for unified server deployment\n\n- Create vercel.json with proper build configuration for FastAPI\n- Add api/index.py as Vercel entry point\n- Update requirements.txt with all necessary dependencies\n- Fix import paths for Vercel deployment compatibility\")",
       "Bash(git commit -m \"fix: update cryptography dependency for Vercel Python 3.11 compatibility\n\n- Change cryptography from fixed version 41.0.8 to >=41.0.0 for Python 3.11 compatibility\n- Update Vercel runtime to Python 3.11 to ensure dependency compatibility\n- Update both root and backend requirements.txt files\")",
-      "Bash(git commit -m \"chore: create Vercel-specific requirements to avoid ROS2 dependency conflicts\n\n- Create vercel-requirements.txt with only FastAPI dependencies\n- Update vercel.json to use custom install command with Vercel-specific requirements\n- This resolves rclpy dependency issue in Vercel environment\")"
+      "Bash(git commit -m \"chore: create Vercel-specific requirements to avoid ROS2 dependency conflicts\n\n- Create vercel-requirements.txt with only FastAPI dependencies\n- Update vercel.json to use custom install command with Vercel-specific requirements\n- This resolves rclpy dependency issue in Vercel environment\")",
+      "Bash(git commit -m \"fix: update unified server for Vercel environment compatibility\n\n- Add Vercel environment detection to handle deployment differences\n- Skip static file mounting in Vercel environment to prevent crashes\n- Return appropriate responses for root and catch-all routes in cloud environment\n- Maintain API functionality while handling missing frontend build directory\")"
     ],
     "deny": [],
     "ask": []
