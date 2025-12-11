@@ -5,8 +5,7 @@
       "src": "api/index.py",
       "use": "@vercel/python",
       "config": {
-        "runtime": "python3.11",
-        "installCommand": "pip install --no-cache-dir -r vercel-requirements.txt"
+        "runtime": "python3.11"
       }
     }
   ],
