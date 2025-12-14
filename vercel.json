@@ -6,7 +6,7 @@
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.11",
-        "requirements": "backend/requirements.txt"
+        "requirements": "backend/requirements-prod.txt"
       }
     }
   ],
