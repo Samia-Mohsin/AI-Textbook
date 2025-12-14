@@ -1,17 +1,5 @@
 {
-  "builds": [
-    {
-      "src": "mkdocs.yml",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "site"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  "buildCommand": "pip install -r backend/requirements.txt && mkdocs build",
+  "outputDirectory": "site",
+  "framework": null
 }
