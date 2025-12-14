@@ -1,0 +1,62 @@
+site_name: "Humanoid Robotics Book"
+site_url: "https://humanoid-robotics-book.vercel.app"
+site_description: "A comprehensive guide to Humanoid Robotics with AI and Physical Computing"
+site_author: "Samia Mohsin"
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+    - header.autohide
+
+plugins:
+  - search
+  - social
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Introduction: intro.md
+  - "Module 1: ROS2": module-1-ros2/chapter-1-architecture.md
+  - "Module 2: Simulation": module-2-simulation/chapter-1-gazebo-setup.md
+  - "Module 3: AI Brain": module-3-ai-brain/chapter-1-isaac-sim-setup.md
+  - "Module 4: VLA Systems": module-4-vla/chapter-1-vla-overview.md
+  - "Capstone Project": capstone-project/intro.md

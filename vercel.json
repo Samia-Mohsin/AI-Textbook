@@ -1,23 +1,17 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "backend/vercel_api.py",
-      "use": "@vercel/python",
+      "src": "mkdocs.yml",
+      "use": "@vercel/static-build",
       "config": {
-        "runtime": "python3.11",
-        "requirements": "backend/requirements-prod.txt"
+        "distDir": "site"
       }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/vercel_api.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "backend/vercel_api.py"
+      "dest": "/index.html"
     }
   ]
 }
