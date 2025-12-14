@@ -3,8 +3,8 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 sqlalchemy==2.0.23
 asyncpg==0.29.0
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.7.4,<3.0.0
+pydantic-settings>=2.1.0
 langchain==0.3.0
 langchain-openai==0.3.0
 qdrant-client==1.12.0
@@ -17,14 +17,12 @@ aiofiles==23.2.1
 pypdf==4.0.0
 ebooklib==0.18
 Pillow==10.1.0
-openai==1.3.7
+openai>=1.3.7
 numpy>=1.21.0
 psycopg2-binary
-better-exceptions==0.3.2
 cryptography>=41.0.0
 httpx==0.25.2
 python-slugify==8.0.1
 beautifulsoup4==4.12.2
 markdown==3.5.1
 python-frontmatter==1.1.0
-gunicorn==21.2.0
