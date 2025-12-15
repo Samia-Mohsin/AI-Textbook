@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
+// Use dynamic import to make this page client-only
 const SigninPage = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Don't render anything during server-side generation
+  if (!isClient) {
+    return (
+      <div className="auth-form">
+        <h2>Loading...</h2>
+        <p>Please wait while the page loads.</p>
+      </div>
+    );
+  }
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  // Safely get login function from context, defaulting to a mock function if context is not available
-  let login;
-  try {
-    const auth = useAuth();
-    login = auth?.login || (() => {});
-  } catch {
-    login = () => {};
-  }
+  // Now that we're client-side, we can safely use the context
+  const { login } = useAuth();
 
-  // For Docusaurus, we'll use a mock navigation during build, real navigation during runtime
+  // For Docusaurus, we'll use window.location for navigation
   const navigate = (path) => {
-    if (typeof window !== 'undefined') {
-      // In browser environment, we can use navigation
-      window.location.hash = path;
-    }
-    // During build, navigation is a no-op
+    window.location.hash = path;
   };
 
   const handleChange = (e) => {
