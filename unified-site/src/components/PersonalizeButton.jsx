@@ -1,12 +1,30 @@
 import React, { useState, useContext } from 'react';
-import { PersonalizationContext } from '../contexts/PersonalizationContext';
-import { AuthContext } from '../contexts/AuthContext';
+import { usePersonalization } from '../contexts/PersonalizationContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const PersonalizeButton = ({ content, onPersonalize }) => {
   const [isPersonalizing, setIsPersonalizing] = useState(false);
   const [personalizationApplied, setPersonalizationApplied] = useState(false);
-  const { userPreferences, updateUserPreferences } = useContext(PersonalizationContext);
-  const { user } = useContext(AuthContext);
+
+  // Safely get context values, defaulting to safe values if context is not available
+  let userPreferences, updateUserPreferences;
+  let user;
+
+  try {
+    const personalization = usePersonalization();
+    userPreferences = personalization?.userPreferences || { experienceLevel: 'intermediate' };
+    updateUserPreferences = personalization?.updatePreferences || (() => {});
+  } catch {
+    userPreferences = { experienceLevel: 'intermediate' };
+    updateUserPreferences = () => {};
+  }
+
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
 
   const handlePersonalize = async () => {
     if (!user) {
@@ -74,7 +92,7 @@ const PersonalizeButton = ({ content, onPersonalize }) => {
             {isPersonalizing ? 'Resetting...' : 'Reset to Original'}
           </button>
           <p className="personalization-notice">
-            Content personalized for your background (Level: {userPreferences.experience_level})
+            Content personalized for your background (Level: {userPreferences.experienceLevel})
           </p>
         </div>
       ) : (

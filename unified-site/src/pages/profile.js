@@ -1,13 +1,31 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import { AuthContext } from '../contexts/AuthContext';
-import { PersonalizationContext } from '../contexts/PersonalizationContext';
+import { useAuth } from '../contexts/AuthContext';
+import { usePersonalization } from '../contexts/PersonalizationContext';
 
 function ProfilePage() {
   const { siteConfig } = useDocusaurusContext();
-  const { user } = useContext(AuthContext);
-  const { userPreferences, updateUserPreferences } = useContext(PersonalizationContext);
+
+  // Safely get context values, defaulting to safe values if context is not available
+  let user, userPreferences, updateUserPreferences;
+
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
+
+  try {
+    const personalization = usePersonalization();
+    userPreferences = personalization?.userPreferences || {};
+    updateUserPreferences = personalization?.updatePreferences || (() => {});
+  } catch {
+    userPreferences = {};
+    updateUserPreferences = () => {};
+  }
+
   const [formData, setFormData] = useState(userPreferences || {});
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -1,12 +1,28 @@
-import React, { useState, useContext } from 'react';
-import { PersonalizationContext } from '../contexts/PersonalizationContext';
-import { AuthContext } from '../contexts/AuthContext';
+import React, { useState } from 'react';
+import { usePersonalization } from '../contexts/PersonalizationContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const TranslateButton = ({ content, onTranslate, language = 'ur' }) => {
   const [isTranslating, setIsTranslating] = useState(false);
   const [translatedContent, setTranslatedContent] = useState(null);
-  const { userPreferences } = useContext(PersonalizationContext);
-  const { user } = useContext(AuthContext);
+
+  // Safely get context values, defaulting to safe values if context is not available
+  let userPreferences;
+  let user;
+
+  try {
+    const personalization = usePersonalization();
+    userPreferences = personalization?.userPreferences || {};
+  } catch {
+    userPreferences = {};
+  }
+
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
 
   const handleTranslate = async () => {
     if (!user) {

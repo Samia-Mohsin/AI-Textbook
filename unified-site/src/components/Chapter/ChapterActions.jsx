@@ -1,14 +1,29 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { PersonalizationContext } from '../../contexts/PersonalizationContext';
+import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { usePersonalization } from '../../contexts/PersonalizationContext';
 import PersonalizeButton from './PersonalizeButton';
 import TranslateButton from './TranslateButton';
 import ProgressCircle from './ProgressCircle';
 import { FaSlidersH, FaGlobeAsia, FaCircle } from 'react-icons/fa';
 
 const ChapterActions = ({ chapterId, chapterTitle = 'Current Chapter' }) => {
-  const { user } = useContext(AuthContext);
-  const { userPreferences } = useContext(PersonalizationContext);
+  // Safely get context values, defaulting to safe values if context is not available
+  let user, userPreferences;
+
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
+
+  try {
+    const personalization = usePersonalization();
+    userPreferences = personalization?.userPreferences || { experienceLevel: 'intermediate', programmingLanguages: [] };
+  } catch {
+    userPreferences = { experienceLevel: 'intermediate', programmingLanguages: [] };
+  }
+
   const [showActions, setShowActions] = useState(false);
 
   if (!user) {

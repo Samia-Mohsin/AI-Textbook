@@ -1,9 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const ProgressCircle = ({ chapterId }) => {
   const [progress, setProgress] = useState(0);
-  const { user } = useContext(AuthContext);
+
+  // Safely get user from context, defaulting to null if context is not available
+  let user;
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
 
   // Simulate progress based on chapter ID (in a real app, this would come from the API)
   useEffect(() => {

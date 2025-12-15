@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import useTextSelection from '../../hooks/useTextSelection';
 
 const ChatInterface = ({ selectedText: propSelectedText = '', onTextSelected }) => {
@@ -12,7 +12,15 @@ const ChatInterface = ({ selectedText: propSelectedText = '', onTextSelected }) 
   const [sessionId, setSessionId] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
-  const { user } = useContext(AuthContext);
+
+  // Safely get user from context, defaulting to null if context is not available
+  let user;
+  try {
+    const auth = useAuth();
+    user = auth?.user || null;
+  } catch {
+    user = null;
+  }
 
   // Add initial context if selected text is available
   useEffect(() => {
