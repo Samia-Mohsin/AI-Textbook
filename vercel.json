@@ -1,14 +1,10 @@
+
 {
   "version": 2,
-  "builds": [
+  "routes": [
     {
-      "src": "unified-site/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "rootDirectory": "unified-site",
-        "buildCommand": "npm run build",
-        "outputDirectory": "build"
-      }
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
