@@ -167,7 +167,13 @@
       "Bash(python -c \"import main; print(''Main module imported successfully'')\")",
       "Bash(pip install fastapi uvicorn sqlalchemy asyncpg langchain langchain-openai qdrant-client python-dotenv openai requests)",
       "Bash(python -c \"from main import app; print(''Backend imports successfully'')\")",
-      "Bash(pip install langchain-community)"
+      "Bash(pip install langchain-community)",
+      "Bash(for dir in C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookmy-bookdocsmodule-1-ros2 C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookmy-bookdocsmodule-2-simulation C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookmy-bookdocsmodule-3-ai-brain C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookmy-bookdocsmodule-4-vla C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookmy-booksrcpages C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookunified-sitebackend C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookunified-sitebackendscripts C:UserssamiaDesktopHackathon-Project1Humanoid-Robotics-Bookunified-sitesrccomponents)",
+      "Bash(do if [ -d \"$dir\" ])",
+      "Bash(then rm -rf \"$dir\")",
+      "Bash(echo \"Removed: $dir\")",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
