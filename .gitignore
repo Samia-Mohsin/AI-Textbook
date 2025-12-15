@@ -82,6 +82,17 @@ isaac-sim/
 # Docusaurus
 my-book/.docusaurus/
 my-book/build/
+frontend/.docusaurus/
+frontend/build/
+unified-site/.docusaurus/
+unified-site/build/
+*.docusaurus/
+*.build/
+
+# Backend
+unified-site/backend/__pycache__/
+unified-site/backend/*.pyc
+unified-site/backend/*.pyo
 
 # IDE
 .vscode/

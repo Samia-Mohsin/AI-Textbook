@@ -173,7 +173,14 @@
       "Bash(then rm -rf \"$dir\")",
       "Bash(echo \"Removed: $dir\")",
       "Bash(fi)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Implement Docusaurus 3 frontend with chatbot and FastAPI backend\n\n- Implement Docusaurus 3 frontend with React, Tailwind CSS, and embedded chatbot\n- Add floating chat bubble with text selection capture functionality\n- Implement chapter header with personalization, translation, and progress features\n- Create FastAPI backend with chat, translation, profile, and ingestion endpoints\n- Configure Vercel deployment for Docusaurus site instead of MkDocs\n- Add authentication with @better-auth/react\n- Implement RAG functionality with Qdrant vector store\n- Add Urdu translation capabilities\n- Implement personalization engine\n- Clean up duplicate and malformed project files\n\nThe project now has a complete educational platform with:\n- Interactive chatbot with context awareness\n- Text selection capture for contextual questions\n- User authentication and profiles\n- Content personalization\n- Urdu translation support\n- Progress tracking\n- RAG-powered AI assistance\n\nRefactor: Remove legacy MkDocs configuration and duplicate files\n\n- Remove all duplicate frontend implementations that were cluttering the repo\n- Clean up malformed directory structures\n- Keep only the unified-site directory as the main project\n- Update mkdocs.yml to indicate deprecation and migration to Docusaurus\n\nEOF\n)\")",
+      "Bash(ls -la *.md)",
+      "Bash(git checkout HEAD~1 -- frontend/docs/intro.md frontend/docs/chapter1.md)",
+      "Bash(echo \"# Module 1: ROS2\n\nWelcome to the ROS2 module of the Physical AI & Humanoid Robotics Educational Platform.\n\n## Chapters\n\n- [Chapter 1: Architecture](./chapter-1-architecture)\n- [Chapter 2: rclpy](./chapter-2-rclpy)\n- [Chapter 3: Packages](./chapter-3-packages)\n- [Chapter 4: URDF](./chapter-4-urdf)\n- [Chapter 5: Control Loops](./chapter-5-control-loops)\n- [Chapter 6: Jetson Deployment](./chapter-6-jetson-deployment)\n\")",
+      "Bash(git add unified-site/docs/ unified-site/static/img/)",
+      "Bash(git add unified-site/src/pages/auth/signin.jsx unified-site/src/pages/auth/signup.jsx)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix: Resolve context usage in auth pages during server-side rendering\n\n- Update signin and signup pages to safely handle useAuth hook during SSR\n- Replace useNavigate with safe navigation that works during build and runtime\n- Add try/catch blocks for safe context access in auth pages\n- Provide fallback navigation behavior for static site generation\n\nThis resolves the remaining build errors where Docusaurus was trying to statically \nrender auth pages that used React contexts before they were available.\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

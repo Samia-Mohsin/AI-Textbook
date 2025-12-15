@@ -1,8 +1,8 @@
-# Feature Specification: Docusaurus 3 Frontend with Embedded Chatbot
+# Feature Specification: Docusaurus 3 Frontend with Integrated RAG Chatbot
 
 **Feature Branch**: `001-docusaurus-chatbot-frontend`
 **Created**: 2025-12-14
-**Status**: Draft
+**Status**: Complete
 **Input**: User description: "# Frontend: Docusaurus 3 + React + Tailwind + Embedded Chatbot
 
 Software Used:
