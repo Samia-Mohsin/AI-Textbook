@@ -1,5 +1,7 @@
 
 {
+  "cleanUrls": true,
+  "trailingSlash": true,
   "version": 2,
   "routes": [
     {
